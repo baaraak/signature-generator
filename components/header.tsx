@@ -1,14 +1,18 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 const Header = () => {
   return (
-    <h2 className="text-2xl md:text-4xl font-bold tracking-tight md:tracking-tighter leading-tight mb-20 mt-8">
+    <h2 className="italic tracking-tight md:tracking-tighter leading-tight text-white bg-gray-900 px-7 py-2 text-center">
       <Link href="/">
-        <a className="hover:underline">Blog</a>
+        <a className="text-xl md:text-2xl font-bold hover:underline font-serif">
+          MySignature
+        </a>
       </Link>
-      .
+      <div className="text-xs font-mono font-light -mt-1 text-gray-400">
+        make your signature
+      </div>
     </h2>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
