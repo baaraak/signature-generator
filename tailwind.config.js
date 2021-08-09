@@ -13,8 +13,8 @@ module.exports = {
         },
       },
       animation: {
-        'enter-left': 'enter-left 1s ease-in-out forwards',
-        'enter-right': 'enter-left 1s ease-in-out forwards',
+        'enter-left': 'enter-left .5s ease-in-out forwards',
+        'enter-right': 'enter-left .5s ease-in-out forwards',
       },
     },
   },

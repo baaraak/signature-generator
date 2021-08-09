@@ -21,7 +21,7 @@ const IconButton = ({
       {...props}
       onClick={onClick}
     >
-      {icon}
+      <span className="text-lg">{icon}</span>
       <span className="mt-2 text-xs">{children}</span>
     </button>
   );
