@@ -78,7 +78,7 @@ const Index = ({}: Props) => {
 
   return (
     <Layout>
-      <div className="md:w-1/3 xl:w-1/4 min-w-max bg-white h-screen">
+      <div className="w-1/4 xl:w-1/5 min-w-max bg-white h-screen">
         <div className="relative bg-gray-100 shadow flex justify-around py-2">
           <div
             ref={indicatorRef}

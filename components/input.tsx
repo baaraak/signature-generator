@@ -50,11 +50,10 @@ type Props = {
   className?: string;
   type?: string;
   label?: string;
-  onBlur?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  inputProps: any
 };
 
-const Input = ({ id, label, type = 'text', className, value }: Props) => {
+const Input = ({ id, label, type = 'text', className, value, ...inputProps }: Props) => {
   const [active, setActive] = useState(value && value.length > 0);
   return (
     <div
