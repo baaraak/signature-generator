@@ -57,7 +57,7 @@ const Index = ({}: Props) => {
     const selectedTab = document.getElementById(selected);
     if (!selectedTab) return;
     moveIndicator(selectedTab.offsetLeft);
-  }, [indicatorRef]);
+  }, [indicatorRef, selected]);
 
   const onTabSelect = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const { currentTarget } = e;

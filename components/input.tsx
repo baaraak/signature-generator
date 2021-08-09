@@ -50,10 +50,17 @@ type Props = {
   className?: string;
   type?: string;
   label?: string;
-  inputProps: any
+  inputProps: any;
 };
 
-const Input = ({ id, label, type = 'text', className, value, ...inputProps }: Props) => {
+const Input = ({
+  id,
+  label,
+  type = 'text',
+  className,
+  value,
+  ...inputProps
+}: Props) => {
   const [active, setActive] = useState(value && value.length > 0);
   return (
     <div

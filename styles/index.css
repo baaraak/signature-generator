@@ -14,9 +14,9 @@
 
 /* Your own custom utilities */
 .label-transform {
-    transform: translate3d(0, -70%, 0) scale(0.70)
+  transform: translate3d(0, -70%, 0) scale(0.7);
 }
 
 input::placeholder {
-    transition: opacity 0.2s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+  transition: opacity 0.2s cubic-bezier(0.6, 0.04, 0.98, 0.335);
 }
