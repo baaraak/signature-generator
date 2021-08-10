@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Template = () => {
-  return <div className="transition animate-enter-right">Template</div>;
+  return (
+    <div className="animate__animated animate__bounceInRight">Template</div>
+  );
 };
 
 export default Template;

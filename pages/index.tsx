@@ -98,7 +98,7 @@ const Index = ({}: Props) => {
             </IconButton>
           ))}
         </div>
-        <div className="overflow-y-scroll">
+        <div className="overflow-y-scroll overflow-x-hidden">
           <TabDataComponent />
         </div>
       </div>

@@ -1,8 +1,8 @@
 type Props = {
   children: React.ReactNode;
   icon: React.ReactNode;
-  className?: String;
-  id: String;
+  className?: string;
+  id: string;
   onClick?(event: React.MouseEvent<HTMLButtonElement>): void;
 };
 

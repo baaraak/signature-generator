@@ -5,26 +5,25 @@ import {
   AiOutlineEdit,
   AiOutlineMore,
   AiOutlinePlus,
-  AiOutlineUnorderedList,
 } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import detailsAtom from '../../recoil/detailsAtom';
+import Button from '../button';
 import Heading from '../heading';
 import Input from '../input';
+import Modal from '../modal';
 
 const Details = () => {
   const [details, setDetails] = useRecoilState(detailsAtom);
+  const [addFieldModalVisible, setAddFieldModalVisible] = useState(false);
 
-  const onChange = (e) => {
-    console.log('***********************');
-    console.log(e.target.name);
-    console.log(e.target.id);
-    console.log(e.target.value);
-    console.log('***********************');
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setDetails((prev) => prev.map((p) => (p.id === id ? { ...p, value } : p)));
   };
 
   return (
-    <div className="p-6 transition animate-enter-left">
+    <div className="p-6 animate__animated animate__bounceInLeft">
       <Heading className="mb-5">signature details</Heading>
       <div className="flex">
         <div className="flex-1">
@@ -36,7 +35,10 @@ const Details = () => {
               {...row}
             />
           ))}
-          <div className="text-blue-400 flex items-center cursor-pointer hover:text-blue-500 ">
+          <div
+            onClick={() => setAddFieldModalVisible(true)}
+            className="text-blue-400 inline-flex items-center cursor-pointer hover:text-blue-500 "
+          >
             <AiOutlinePlus className="mr-2" /> Add a field
           </div>
         </div>
@@ -53,6 +55,27 @@ const Details = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={addFieldModalVisible}
+        onClose={() => setAddFieldModalVisible(false)}
+      >
+        <div className="flex flex-col w-64 px-4 text-center">
+          <Heading className="mb-4 text-xl">Add a field</Heading>
+          <select>
+            <option value="">1</option>
+            <option value="">2</option>
+          </select>
+          <Button className="bg-red-500 hover:bg-red-400 text-white border-red-700 mt-4">
+            Add field
+          </Button>
+          <Button
+            className="bg-white hover:bg-gray-100 text-gray-800 border-gray-400 mt-2"
+            onClick={() => setAddFieldModalVisible(false)}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };
