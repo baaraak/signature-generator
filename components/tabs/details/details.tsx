@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   AiOutlineCamera,
   AiOutlineDelete,
@@ -7,11 +7,16 @@ import {
   AiOutlinePlus,
 } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
-import detailsAtom from '../../recoil/detailsAtom';
-import Button from '../button';
-import Heading from '../heading';
-import Input from '../input';
-import Modal from '../modal';
+import detailsAtom, {
+  DETAILS_FIELDS,
+  Field,
+} from '../../../recoil/detailsAtom';
+import Button from '../../button';
+import Heading from '../../heading';
+import Input from '../../input';
+import Modal from '../../modal';
+import Select from '../../select';
+import AddFieldModal from './add-field-modal';
 
 const Details = () => {
   const [details, setDetails] = useRecoilState(detailsAtom);
@@ -21,6 +26,17 @@ const Details = () => {
     const { id, value } = e.target;
     setDetails((prev) => prev.map((p) => (p.id === id ? { ...p, value } : p)));
   };
+
+  const onAddField = (fieldId: string) => {
+    const fieldById = DETAILS_FIELDS.find((f) => f.id === fieldId);
+    if (fieldById) setDetails((prev) => prev.concat(fieldById));
+    setAddFieldModalVisible(false);
+  };
+
+  const fields = useMemo(() => {
+    const currentFieldsIds = details.map((f) => f.id);
+    return DETAILS_FIELDS.filter((d) => !currentFieldsIds.includes(d.id));
+  }, [details]);
 
   return (
     <div className="p-6 animate__animated animate__bounceInLeft">
@@ -55,27 +71,13 @@ const Details = () => {
           </div>
         </div>
       </div>
-      <Modal
-        open={addFieldModalVisible}
-        onClose={() => setAddFieldModalVisible(false)}
-      >
-        <div className="flex flex-col w-64 px-4 text-center">
-          <Heading className="mb-4 text-xl">Add a field</Heading>
-          <select>
-            <option value="">1</option>
-            <option value="">2</option>
-          </select>
-          <Button className="bg-red-500 hover:bg-red-400 text-white border-red-700 mt-4">
-            Add field
-          </Button>
-          <Button
-            className="bg-white hover:bg-gray-100 text-gray-800 border-gray-400 mt-2"
-            onClick={() => setAddFieldModalVisible(false)}
-          >
-            Cancel
-          </Button>
-        </div>
-      </Modal>
+      {addFieldModalVisible && (
+        <AddFieldModal
+          onAdd={onAddField}
+          fields={fields}
+          onClose={() => setAddFieldModalVisible(false)}
+        />
+      )}
     </div>
   );
 };

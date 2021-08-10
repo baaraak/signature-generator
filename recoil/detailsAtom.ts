@@ -1,6 +1,12 @@
 import { atom } from 'recoil';
 
-const fields = [
+export type Field = {
+  id: string;
+  label: string;
+  mandatory: boolean;
+};
+
+export const DETAILS_FIELDS: Field[] = [
   { id: 'name', label: 'Name', mandatory: true },
   { id: 'title', label: 'Title', mandatory: true },
   { id: 'company', label: 'Company', mandatory: false },
@@ -18,11 +24,9 @@ const fields = [
   { id: 'telegram', label: 'telegram', mandatory: false },
 ];
 
-('Phone,Mobile,Extension,Email,Address,Fax,Skype,Hangout,Zoom,Meet,Whatsapp,Telegram');
-
 const detailsAtom = atom({
   key: 'detailsState',
-  default: fields.slice(0, 7),
+  default: DETAILS_FIELDS.slice(0, 7),
 });
 
 export default detailsAtom;

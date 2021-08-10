@@ -18,7 +18,7 @@ const SidebarItems = [
     id: 'details',
     label: 'Details',
     icon: <IoReaderOutline />,
-    value: dynamic(() => import('../components/tabs/details')),
+    value: dynamic(() => import('../components/tabs/details/details')),
   },
   {
     id: 'social',
