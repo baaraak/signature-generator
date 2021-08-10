@@ -40,7 +40,7 @@ const Details = () => {
 
   return (
     <div className="p-6 animate__animated animate__bounceInLeft">
-      <Heading className="mb-5">signature details</Heading>
+      <Heading className="mb-5 uppercase">signature details</Heading>
       <div className="flex">
         <div className="flex-1">
           {details.map((row) => (

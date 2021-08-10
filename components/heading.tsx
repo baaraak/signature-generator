@@ -7,9 +7,7 @@ type Props = {
 
 const Heading = ({ children, className }: Props) => {
   return (
-    <h3 className={`font-bold text-gray-800 uppercase ${className}`}>
-      {children}
-    </h3>
+    <h3 className={`font-semibold text-gray-700 ${className}`}>{children}</h3>
   );
 };
 
