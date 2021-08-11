@@ -1,21 +1,21 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   AiOutlineCamera,
   AiOutlineDelete,
-  AiOutlineEdit,
   AiOutlineMore,
   AiOutlinePlus,
 } from 'react-icons/ai';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from 'react-beautiful-dnd';
 import { useRecoilState } from 'recoil';
-import detailsAtom, {
-  DETAILS_FIELDS,
-  Field,
-} from '../../../recoil/detailsAtom';
-import Button from '../../button';
+import detailsAtom, { DETAILS_FIELDS } from '../../../recoil/detailsAtom';
+
 import Heading from '../../heading';
 import Input from '../../input';
-import Modal from '../../modal';
-import Select from '../../select';
 import AddFieldModal from './add-field-modal';
 
 const Details = () => {
@@ -33,6 +33,21 @@ const Details = () => {
     setAddFieldModalVisible(false);
   };
 
+  const onDragEnd = (results: DropResult) => {
+    console.log(
+      '🚀 ~ file: details.tsx ~ line 32 ~ onDragEnd ~ draggableId, destination, source',
+      results
+    );
+
+    // const newL = reorder(
+    //   links,
+    //   links[source.index].index,
+    //   links[destination.index].index,
+    // );
+
+    // reOrder({ links: newL });
+  };
+
   const fields = useMemo(() => {
     const currentFieldsIds = details.map((f) => f.id);
     return DETAILS_FIELDS.filter((d) => !currentFieldsIds.includes(d.id));
@@ -43,14 +58,30 @@ const Details = () => {
       <Heading className="mb-5 uppercase">signature details</Heading>
       <div className="flex">
         <div className="flex-1">
-          {details.map((row) => (
-            <InputWithActions
-              key={row.id}
-              className="mb-7"
-              onBlur={onChange}
-              {...row}
-            />
-          ))}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {details.map((row, index) => (
+                    <Draggable key={row.id} draggableId={row.id} index={index}>
+                      {(provided, snapshot) => (
+                        <InputWithActions
+                          key={row.id}
+                          className="mb-7"
+                          onBlur={onChange}
+                          provided={provided}
+                          isDragging={snapshot.isDragging}
+                          {...row}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+
           <div
             onClick={() => setAddFieldModalVisible(true)}
             className="text-blue-400 inline-flex items-center cursor-pointer hover:text-blue-500 "
@@ -82,37 +113,35 @@ const Details = () => {
   );
 };
 
-const InputWithActions = ({ mandatory, ...inputProps }: any) => {
+const InputWithActions = ({
+  mandatory,
+  provided,
+  isDragging,
+  ...inputProps
+}: any) => {
   const [hovered, setHovered] = useState(false);
 
+  const hoverClasses = hovered ? 'opacity-1' : 'opacity-0';
   return (
     <div
+      {...provided.draggableProps}
+      ref={provided.innerRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="relative flex -ml-4"
     >
-      <AiOutlineMore
-        className={`mr-1 mt-2 ${
-          hovered ? 'opacity-1' : 'opacity-0'
-        } transition duration-500 cursor-move`}
-      />
+      <div {...provided.dragHandleProps}>
+        <AiOutlineMore
+          className={`mr-1 mt-2 transition duration-500 cursor-move ${hoverClasses}`}
+        />
+      </div>
       <Input {...inputProps} className="mb-7 flex-1" />
       {!mandatory && (
-        <>
-          <AiOutlineDelete
-            className={`absolute right-6 top-1 text-xl text-red-400  ${
-              hovered ? 'opacity-1' : 'opacity-0'
-            } transition duration-500 cursor-pointer`}
-          />
-          <AiOutlineEdit
-            className={`absolute right-0 top-1 text-xl text-blue-400  ${
-              hovered ? 'opacity-1' : 'opacity-0'
-            } transition duration-500 cursor-pointer`}
-          />
-        </>
+        <AiOutlineDelete
+          className={`absolute right-6 top-1 text-xl text-red-400 transition duration-500 cursor-pointer ${hoverClasses}`}
+        />
       )}
     </div>
   );
 };
-
 export default Details;

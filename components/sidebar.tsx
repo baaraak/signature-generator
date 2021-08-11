@@ -6,9 +6,10 @@ import {
   IoReaderOutline,
   IoGridOutline,
 } from 'react-icons/io5';
-import IconButton from '../components/button-icon';
 import classNames from 'classnames';
 import dynamic from 'next/dynamic';
+
+import IconButton from '../components/button-icon';
 
 const Sidebar = () => {
   const [selected, setSelected] = useState(SidebarItems[0].id);
@@ -38,7 +39,7 @@ const Sidebar = () => {
     (item) => item.id === selected
   )?.value;
   return (
-    <div className="w-1/4 xl:w-1/5 min-w-max bg-white h-screen">
+    <div className="min-w-max bg-white h-screen">
       <div className="relative bg-gray-100 shadow flex justify-around py-2">
         <div
           ref={indicatorRef}

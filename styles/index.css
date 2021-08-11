@@ -20,3 +20,12 @@
 input::placeholder {
   transition: opacity 0.2s cubic-bezier(0.6, 0.04, 0.98, 0.335);
 }
+
+.layout-grid { 
+  grid-template-columns: minmax(400px, 20%) 1fr;
+}
+
+.animate__animated {
+  /* fix drag and drop animation */
+  animation-fill-mode: none;
+}

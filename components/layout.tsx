@@ -10,7 +10,9 @@ const Layout = ({ children }: Props) => {
     <>
       <Meta />
       <Header />
-      <div className="min-h-screen overflow-hidden bg-gray-200">{children}</div>
+      <div className="min-h-screen overflow-hidden bg-gray-200 grid layout-grid">
+        {children}
+      </div>
     </>
   );
 };
