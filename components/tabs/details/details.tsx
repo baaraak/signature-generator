@@ -1,10 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  AiOutlineCamera,
-  AiOutlineDelete,
-  AiOutlineMore,
-  AiOutlinePlus,
-} from 'react-icons/ai';
+import { AiOutlineCamera, AiOutlinePlus } from 'react-icons/ai';
 import {
   DragDropContext,
   Droppable,
@@ -15,8 +10,9 @@ import { useRecoilState } from 'recoil';
 import detailsAtom, { DETAILS_FIELDS } from '../../../recoil/detailsAtom';
 
 import Heading from '../../heading';
-import Input from '../../input';
 import AddFieldModal from './add-field-modal';
+import { reorder } from '../../../services/utils';
+import DetailsFieldInput from './details-field-input';
 
 const Details = () => {
   const [details, setDetails] = useRecoilState(detailsAtom);
@@ -33,19 +29,31 @@ const Details = () => {
     setAddFieldModalVisible(false);
   };
 
+  const onDeleteField = (fieldId: string) => {
+    setDetails((prev) => prev.filter((p) => p.id !== fieldId));
+  };
+
   const onDragEnd = (results: DropResult) => {
     console.log(
       '🚀 ~ file: details.tsx ~ line 32 ~ onDragEnd ~ draggableId, destination, source',
       results
     );
+    // dropped outside the list
+    if (!results.destination) {
+      return;
+    }
 
-    // const newL = reorder(
-    //   links,
-    //   links[source.index].index,
-    //   links[destination.index].index,
-    // );
+    if (results.destination.index === results.source.index) {
+      return;
+    }
 
-    // reOrder({ links: newL });
+    const newDetails = reorder(
+      details,
+      results.source.index,
+      results.destination.index
+    );
+
+    setDetails(newDetails);
   };
 
   const fields = useMemo(() => {
@@ -54,7 +62,7 @@ const Details = () => {
   }, [details]);
 
   return (
-    <div className="p-6 animate__animated animate__bounceInLeft">
+    <div className="p-6 ">
       <Heading className="mb-5 uppercase">signature details</Heading>
       <div className="flex">
         <div className="flex-1">
@@ -65,10 +73,10 @@ const Details = () => {
                   {details.map((row, index) => (
                     <Draggable key={row.id} draggableId={row.id} index={index}>
                       {(provided, snapshot) => (
-                        <InputWithActions
+                        <DetailsFieldInput
                           key={row.id}
-                          className="mb-7"
                           onBlur={onChange}
+                          handleDelete={() => onDeleteField(row.id)}
                           provided={provided}
                           isDragging={snapshot.isDragging}
                           {...row}
@@ -113,35 +121,4 @@ const Details = () => {
   );
 };
 
-const InputWithActions = ({
-  mandatory,
-  provided,
-  isDragging,
-  ...inputProps
-}: any) => {
-  const [hovered, setHovered] = useState(false);
-
-  const hoverClasses = hovered ? 'opacity-1' : 'opacity-0';
-  return (
-    <div
-      {...provided.draggableProps}
-      ref={provided.innerRef}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="relative flex -ml-4"
-    >
-      <div {...provided.dragHandleProps}>
-        <AiOutlineMore
-          className={`mr-1 mt-2 transition duration-500 cursor-move ${hoverClasses}`}
-        />
-      </div>
-      <Input {...inputProps} className="mb-7 flex-1" />
-      {!mandatory && (
-        <AiOutlineDelete
-          className={`absolute right-6 top-1 text-xl text-red-400 transition duration-500 cursor-pointer ${hoverClasses}`}
-        />
-      )}
-    </div>
-  );
-};
 export default Details;
