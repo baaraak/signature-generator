@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
 export type Field = {
   id: string;
@@ -24,9 +25,13 @@ export const DETAILS_FIELDS: Field[] = [
   { id: 'telegram', label: 'telegram', mandatory: false },
 ];
 
+// creating persist side effect to store value in local storage
+const { persistAtom } = recoilPersist();
+
 const detailsAtom = atom({
   key: 'detailsState',
   default: DETAILS_FIELDS.slice(0, 7),
+  effects_UNSTABLE: [persistAtom],
 });
 
 export default detailsAtom;

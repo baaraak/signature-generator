@@ -21,7 +21,7 @@ const DetailsFieldInput = ({
 }: Props) => {
   const [hovered, setHovered] = useState(false);
 
-  const hoverClasses = hovered ? 'opacity-1' : 'opacity-0';
+  const hoverClasses = hovered || isDragging ? 'opacity-1' : 'opacity-0';
   return (
     <div
       {...provided.draggableProps}
@@ -30,7 +30,10 @@ const DetailsFieldInput = ({
       onMouseLeave={() => setHovered(false)}
       className="relative flex -ml-4"
     >
-      <div {...provided.dragHandleProps}>
+      <div {...provided.dragHandleProps} className="flex">
+        <AiOutlineMore
+          className={`mt-2 -mr-3 transition duration-500 cursor-move ${hoverClasses}`}
+        />
         <AiOutlineMore
           className={`mr-1 mt-2 transition duration-500 cursor-move ${hoverClasses}`}
         />

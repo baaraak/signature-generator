@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 type Props = {
   id?: string;
@@ -20,7 +21,10 @@ const Input = ({
   onFocus,
 }: Props) => {
   const [active, setActive] = useState(value && value.length > 0);
-
+  console.log('***********************');
+  console.log(value);
+  console.log(active);
+  console.log('***********************');
   const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     setActive(e.target.value.length !== 0);
     if (typeof onBlur === 'function') {
@@ -63,4 +67,7 @@ const Input = ({
   );
 };
 
-export default Input;
+// disable ssr, causing issues with conditional className
+export default dynamic(() => Promise.resolve(Input), {
+  ssr: false,
+});

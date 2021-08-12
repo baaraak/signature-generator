@@ -62,7 +62,7 @@ const Details = () => {
   }, [details]);
 
   return (
-    <div className="p-6 ">
+    <div className="animate__animated animate__bounceInLeft">
       <Heading className="mb-5 uppercase">signature details</Heading>
       <div className="flex">
         <div className="flex-1">

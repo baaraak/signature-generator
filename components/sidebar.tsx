@@ -59,7 +59,7 @@ const Sidebar = () => {
           </IconButton>
         ))}
       </div>
-      <div className="overflow-y-scroll overflow-x-hidden">
+      <div className="overflow-y-scroll overflow-x-hidden p-6 ">
         <TabDataComponent />
       </div>
     </div>
